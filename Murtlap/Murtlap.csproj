@@ -36,6 +36,9 @@
     <Reference Include="FB2Library, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FB2Library.1.3.0\lib\netstandard1.0\FB2Library.dll</HintPath>
     </Reference>
+    <Reference Include="MenuMasterLib">
+      <HintPath>..\..\nus-ii\Jason3\MenuMasterLib\bin\Release\MenuMasterLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
       <Private>True</Private>

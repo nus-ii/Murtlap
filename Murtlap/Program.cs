@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FB2Library;
 using System.IO;
 using System.Linq;
+using MenuMasterLib;
 
 
 namespace Murtlap
@@ -14,7 +15,10 @@ namespace Murtlap
     {
         static void Main(string[] args)
         {
-            FReader.Read();
+            var Menu = new MenuMasterAction<CommonData>();
+            Menu.AddItem("Make frequency dictionary", UniReader.Read);
+            Menu.AddItem("Translate", Translator.Translate);
+            Menu.PrintAndWait(new CommonData());
 
             Console.ReadLine();
 
@@ -23,41 +27,69 @@ namespace Murtlap
 
     }
 
-    class FReader
+    class Translator
     {
-        public static async void Read()
+        public static void Translate(CommonData commonData)
         {
-            var r = new FB2Reader();
-            File.OpenRead(@"C:\temp\1.fb2");
-            var ttt = await r.ReadAsync(File.OpenRead(@"C:\temp\1.fb2"), new XmlLoadSettings(new System.Xml.XmlReaderSettings()));
+            Console.ReadLine();
+        }
+    }
 
-            WordItemsHendler wih = new WordItemsHendler();
 
+
+    class CommonData
+    {
+
+    }
+
+    class UniReader
+    {
+        public static async void Read(CommonData commonData)
+        {
+
+            List<string> data = await FbReaderCover.ReadDataFromFile(@"C:\temp\1.fb2");
             Double fCount = 0;
+            WordItemsHendler wih = new WordItemsHendler();
+            foreach (string line in data)
+            {
+                fCount++;
+                wih.AddWordFromBookString(line);
+
+                if (fCount < 20 || fCount % 200 == 0)
+                    wih.UpdateStat();
+
+                if (fCount < 20 || fCount % 20 == 0)
+                {
+                    Console.Clear();
+                    //Console.WriteLine("lines: " + fCount);//4150
+                    Console.WriteLine(Math.Round((fCount / 4150) * 100, 2) + "%");//4150
+                    wih.PrintStat();
+                }
+            }
+
+            string rnd = Guid.NewGuid().ToString().Split('-')[0];
+            File.WriteAllLines(@"C:\temp\1outMM"+ rnd + ".csv", wih.GetCsvData().ToArray());
+            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>");
+        }
+    }
+
+    class FbReaderCover
+    {
+        public static async Task<List<string>> ReadDataFromFile(string path)
+        {
+            List<string> data = new List<string>();
+            var r = new FB2Reader();
+           // File.OpenRead();
+            var ttt = await r.ReadAsync(File.OpenRead(path), new XmlLoadSettings(new System.Xml.XmlReaderSettings()));  
+
             foreach (var i in ttt.MainBody.Sections)
             {
                 foreach (var ic in i.Content)
                 {
-                    fCount++;
-                    var line = ic.ToString();
-                    wih.AddWordFromBookString(line);
-
-                    if (fCount < 20 || fCount % 200 == 0)
-                        wih.UpdateStat();
-
-                    if (fCount < 20 || fCount % 20 == 0)
-                    {
-                        Console.Clear();
-                        //Console.WriteLine("lines: " + fCount);//4150
-                        Console.WriteLine(Math.Round((fCount/4150)*100,2)+"%");//4150
-                        wih.PrintStat();
-                    }
-               
-
+                    data.Add(ic.ToString());
                 }
             }
-            File.WriteAllLines(@"C:\temp\1outMM.csv", wih.GetCsvData().ToArray());
-            Console.WriteLine(">>>>>>>>>>>>>>>>>>>>>>>>>");
+            return data;
         }
     }
 
