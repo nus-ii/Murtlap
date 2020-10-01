@@ -25,7 +25,7 @@ namespace Murtlap
                 HttpClient client = new HttpClient();
                 //client.BaseAddress=new Uri(@"https://translate.api.cloud.yandex.net/translate/v2/translate");
 
-                client.DefaultRequestHeaders.Add("Authorization", "Bearer 9f7L7euelZrPlp3I");
+                client.DefaultRequestHeaders.Add("Authorization", "");
                 var content = new StringContent(output, Encoding.UTF8, "application/json");
                 var result = client.PostAsync(@"https://translate.api.cloud.yandex.net/translate/v2/translate", content).Result;
 
