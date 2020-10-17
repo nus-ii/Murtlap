@@ -32,11 +32,7 @@ namespace Murtlap
                 var res = result.Content.ReadAsStringAsync().Result;
 
                 var deserializedProduct = JsonConvert.DeserializeObject<ResFromYat>(res);
-
-
-
-
-
+                
                 return deserializedProduct.translations.First().text;
             }
             catch (Exception)
@@ -70,7 +66,7 @@ namespace Murtlap
 
         public List<string> texts;
 
-        public string folderId = "b1g4hkcf3kdmfid5n";
+        public string folderId = "";
 
 
         public RecToYat(string val)

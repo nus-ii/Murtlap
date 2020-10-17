@@ -178,8 +178,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TranslatorCover.cs" />
+    <Compile Include="UniReader.cs" />
+    <Compile Include="Word.cs" />
+    <Compile Include="WordItem.cs" />
+    <Compile Include="WordItemsHandler.cs" />
     <Compile Include="YTranslator.cs" />
   </ItemGroup>
   <ItemGroup>
